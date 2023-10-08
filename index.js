@@ -5,6 +5,20 @@ class Room {
     this.rate = rate;
     this.discount = discount;
   }
+  isOccupied(date) {
+    const myDate = new Date(date);
+
+    for (let i = 0; i < this.bookings.length; i++) {
+      const startDate = new Date(this.bookings[i].startDate);
+      const endDate = new Date(this.bookings[i].endDate);
+
+      if (myDate >= startDate && myDate <= endDate) {
+        return true;
+      }
+    }
+    return false;
+  }
+
 
 }
 
