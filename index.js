@@ -19,7 +19,22 @@ class Room {
     return false;
   }
 
+  occupancyPercentage(startingDate, endingDate) {
+    const startDate = new Date(startingDate);
+    const endDate = new Date(endingDate);
 
+    const totalDaysInRange = (endDate - startDate) / (24 * 60 * 60 * 1000) + 1;
+    let occupiedDays = 0;
+
+    for (let i = startDate; i <= endDate; i.setDate(i.getDate() + 1)) {
+      if (this.isOccupied(i)) {
+        occupiedDays++;
+      }
+    }
+
+    const percentage = (occupiedDays / totalDaysInRange) * 100;
+    return percentage;
+  }
 }
 
 class Booking {
