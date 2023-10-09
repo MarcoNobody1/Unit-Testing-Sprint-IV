@@ -9,13 +9,14 @@ class Room {
     const myDate = new Date(date);
 
     for (let i = 0; i < this.bookings.length; i++) {
-      const startDate = new Date(this.bookings[i].startDate);
-      const endDate = new Date(this.bookings[i].endDate);
+      const startDate = new Date(this.bookings[i].checkin);
+      const endDate = new Date(this.bookings[i].checkout);
 
       if (myDate >= startDate && myDate <= endDate) {
         return true;
       }
     }
+
     return false;
   }
 
@@ -24,8 +25,10 @@ class Room {
     const endDate = new Date(endingDate);
 
     const totalDaysInRange = (endDate - startDate) / (24 * 60 * 60 * 1000) + 1;
+
     let occupiedDays = 0;
 
+    
     for (let i = startDate; i <= endDate; i.setDate(i.getDate() + 1)) {
       if (this.isOccupied(i)) {
         occupiedDays++;
@@ -33,6 +36,7 @@ class Room {
     }
 
     const percentage = (occupiedDays / totalDaysInRange) * 100;
+    
     return percentage;
   }
 }
@@ -44,11 +48,7 @@ class Booking {
     this.checkin = checkin;
     this.checkout = checkout;
     this.discount = discount;
-    this.room = {
-      name,
-      rate,
-      discount,
-    };
+    this.room = room;
   }
 }
 
