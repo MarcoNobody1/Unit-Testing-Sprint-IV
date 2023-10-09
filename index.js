@@ -62,7 +62,32 @@ class Room {
     return parseFloat(percentage.toFixed(1));
   }
 
+  static totalOccupancyPercentage(rooms, startDate, endDate) {
+    
+    if (!Array.isArray(rooms) || rooms.every((room) => !(room instanceof Room))) {
+        return 0;
+    }
 
+    function countDays(startDate, endDate) {
+      const oneDay = 24 * 60 * 60 * 1000;
+      return Math.round(Math.abs((startDate - endDate) / oneDay)) + 1;
+    }
+
+    let totalOccupiedDays = 0;
+    let totalDaysInRange = countDays(new Date(startDate), new Date(endDate));
+
+    if (totalDaysInRange === 0) {
+      return 0;
+    }
+
+    rooms.forEach((room) => {
+      totalOccupiedDays += room.occupancyPercentage(startDate, endDate);
+    });
+
+    const percentage = (totalOccupiedDays / rooms.length).toFixed(1);
+
+    return parseFloat(percentage);
+  }
 }
 
 class Booking {
