@@ -24,21 +24,45 @@ class Room {
     const startDate = new Date(startingDate);
     const endDate = new Date(endingDate);
 
-    const totalDaysInRange = (endDate - startDate) / (24 * 60 * 60 * 1000) + 1;
+    startDate.setHours(0, 0, 0, 0);
+    endDate.setHours(23, 59, 59, 999);
 
+    let totalDaysInRange = 0;
     let occupiedDays = 0;
 
-    
-    for (let i = startDate; i <= endDate; i.setDate(i.getDate() + 1)) {
-      if (this.isOccupied(i)) {
+    for (let currentDate = startDate; currentDate <= endDate; currentDate.setDate(currentDate.getDate() + 1)) {
+        
+      totalDaysInRange++;
+
+      let isOccupied = false;
+
+      for (const booking of this.bookings) {
+        const bookingStartDate = new Date(booking.checkin);
+        const bookingEndDate = new Date(booking.checkout);
+        bookingStartDate.setHours(0, 0, 0, 0);
+        bookingEndDate.setHours(23, 59, 59, 999);
+
+        if (currentDate >= bookingStartDate && currentDate <= bookingEndDate) {
+          isOccupied = true;
+          break;
+        }
+      }
+
+      if (isOccupied) {
         occupiedDays++;
       }
     }
 
+    if (totalDaysInRange === 0) {
+      return 0;
+    }
+
     const percentage = (occupiedDays / totalDaysInRange) * 100;
-    
-    return percentage;
+
+    return parseFloat(percentage.toFixed(1));
   }
+
+
 }
 
 class Booking {
