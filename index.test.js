@@ -470,5 +470,202 @@ describe("Tests para la clase de Room", () => {
     expect(percentage2).toBe(0);
     expect(percentage3).toBe(0);
   });
+  test("availableRooms tiene que devolver las rooms que están dentro del rango disponible", () => {
+    const roomA = {
+      name: "roomA",
+      rate: 150,
+      discount: 10,
+    };
 
+    const booking1 = new Booking(
+      "booking 1",
+      "bok@bok.es",
+      "2023-09-01",
+      "2023-09-03",
+      10,
+      roomA
+    );
+
+    const booking2 = new Booking(
+      "booking 2",
+      "bok2@bok.es",
+      "2023-09-04",
+      "2023-09-08",
+      10,
+      roomA
+    );
+
+    const bookingsA = [booking1, booking2];
+
+    const roomB = {
+      name: "roomB",
+      rate: 150,
+      discount: 10,
+    };
+
+    const booking3 = new Booking(
+      "booking 3",
+      "bok@bok.es",
+      "2023-09-15",
+      "2023-09-22",
+      10,
+      roomB
+    );
+
+    const booking4 = new Booking(
+      "booking 4",
+      "bok2@bok.es",
+      "2023-09-23",
+      "2023-09-30",
+      10,
+      roomB
+    );
+
+    const bookingsB = [booking3, booking4];
+
+    const room1 = new Room(roomA.name, bookingsA, roomA.rate, roomA.discount);
+    const room2 = new Room(roomB.name, bookingsB, roomB.rate, roomB.discount);
+
+    const roomArray = [room1, room2];
+
+    const availables = Room.availableRooms(
+      roomArray,
+      "2023-09-01",
+      "2023-09-05"
+    );
+
+    expect(availables).toEqual([room2]);
+  });
+  test("availableRooms devuelve todas las rooms si el rango que compruebas esta fuera de las reservas hechas", () => {
+    const roomA = {
+      name: "roomA",
+      rate: 150,
+      discount: 10,
+    };
+
+    const booking1 = new Booking(
+      "booking 1",
+      "bok@bok.es",
+      "2023-09-01",
+      "2023-09-03",
+      10,
+      roomA
+    );
+
+    const booking2 = new Booking(
+      "booking 2",
+      "bok2@bok.es",
+      "2023-09-04",
+      "2023-09-08",
+      10,
+      roomA
+    );
+
+    const bookingsA = [booking1, booking2];
+
+    const roomB = {
+      name: "roomB",
+      rate: 150,
+      discount: 10,
+    };
+
+    const booking3 = new Booking(
+      "booking 3",
+      "bok@bok.es",
+      "2023-09-15",
+      "2023-09-22",
+      10,
+      roomB
+    );
+
+    const booking4 = new Booking(
+      "booking 4",
+      "bok2@bok.es",
+      "2023-09-23",
+      "2023-09-30",
+      10,
+      roomB
+    );
+
+    const bookingsB = [booking3, booking4];
+
+    const room1 = new Room(roomA.name, bookingsA, roomA.rate, roomA.discount);
+    const room2 = new Room(roomB.name, bookingsB, roomB.rate, roomB.discount);
+
+    const roomArray = [room1, room2];
+
+    const availables = Room.availableRooms(
+      roomArray,
+      "2023-09-09",
+      "2023-09-14"
+    );
+
+    expect(availables).toEqual([room1, room2]);
+  });
+  test("availableRooms devuelve niguna room si el rango que compruebas esta dentro de todas las reservas hechas", () => {
+    const roomA = {
+      name: "roomA",
+      rate: 150,
+      discount: 10,
+    };
+
+    const booking1 = new Booking(
+      "booking 1",
+      "bok@bok.es",
+      "2023-09-01",
+      "2023-09-03",
+      10,
+      roomA
+    );
+
+    const booking2 = new Booking(
+      "booking 2",
+      "bok2@bok.es",
+      "2023-09-04",
+      "2023-09-08",
+      10,
+      roomA
+    );
+
+    const bookingsA = [booking1, booking2];
+
+    const roomB = {
+      name: "roomB",
+      rate: 150,
+      discount: 10,
+    };
+
+    const booking3 = new Booking(
+      "booking 3",
+      "bok@bok.es",
+      "2023-09-15",
+      "2023-09-22",
+      10,
+      roomB
+    );
+
+    const booking4 = new Booking(
+      "booking 4",
+      "bok2@bok.es",
+      "2023-09-23",
+      "2023-09-30",
+      10,
+      roomB
+    );
+
+    const bookingsB = [booking3, booking4];
+
+    const room1 = new Room(roomA.name, bookingsA, roomA.rate, roomA.discount);
+    const room2 = new Room(roomB.name, bookingsB, roomB.rate, roomB.discount);
+
+    const roomArray = [room1, room2];
+
+    const availables = Room.availableRooms(
+      roomArray,
+      "2023-09-01",
+      "2023-09-30"
+    );
+
+    expect(availables).toEqual([]);
+  });
 });
