@@ -834,4 +834,105 @@ describe("Tests para la clase de Booking", () => {
 
     expect(realFee).toBe(12150);
   });
+
+  test("getFee devuelve una factura (en centimos) con solo el descuento de la room aplicado", () => {
+    const room = {
+      name: "Room1",
+      rate: 15000,
+      discount: 50,
+    };
+
+    const booking = new Booking(
+      "Booking1",
+      "bok@bok.es",
+      "2023-10-01",
+      "2023-10-06",
+      0,
+      room
+    );
+
+    const realFee = booking.getFee();
+
+    expect(realFee).toBe(7500);
+  });
+  test("getFee devuelve una factura (en centimos) con solo el descuento del booking aplicado", () => {
+    const room = {
+      name: "Room1",
+      rate: 15000,
+      discount: 0,
+    };
+
+    const booking = new Booking(
+      "Booking1",
+      "bok@bok.es",
+      "2023-10-01",
+      "2023-10-06",
+      25,
+      room
+    );
+
+    const realFee = booking.getFee();
+
+    expect(realFee).toBe(11250);
+  });
+  test("getFee devuelve siempre un numero", () => {
+    const room = {
+      name: "Room1",
+      rate: 15000,
+      discount: 100,
+    };
+
+    const booking = new Booking(
+      "Booking1",
+      "bok@bok.es",
+      "2023-10-01",
+      "2023-10-06",
+      100,
+      room
+    );
+
+    const room1 = {
+      name: "Room1",
+      rate: 15000,
+      discount: "hello",
+    };
+
+    const booking1 = new Booking(
+      "Booking1",
+      "bok@bok.es",
+      "2023-10-01",
+      "2023-10-06",
+      "world",
+      room1
+    );
+
+    const realFee = booking.getFee();
+    const realFee2 = booking1.getFee();
+
+    expect(typeof realFee).toBe("number");
+    expect(typeof realFee2).toBe("number");
+
+
+  });
+  test("getFee devuelve el precio original si los discounts aplicados no son numeros", () => {
+
+    const room = {
+      name: "Room1",
+      rate: 15000,
+      discount: "hello",
+    };
+
+    const booking = new Booking(
+      "Booking1",
+      "bok@bok.es",
+      "2023-10-01",
+      "2023-10-06",
+      "world",
+      room
+    );
+
+    const realFee = booking.getFee();
+
+    expect(realFee).toBe(15000);
+  });
 });
