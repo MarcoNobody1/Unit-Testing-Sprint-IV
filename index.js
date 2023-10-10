@@ -30,8 +30,11 @@ class Room {
     let totalDaysInRange = 0;
     let occupiedDays = 0;
 
-    for (let currentDate = startDate; currentDate <= endDate; currentDate.setDate(currentDate.getDate() + 1)) {
-        
+    for (
+      let currentDate = startDate;
+      currentDate <= endDate;
+      currentDate.setDate(currentDate.getDate() + 1)
+    ) {
       totalDaysInRange++;
 
       let isOccupied = false;
@@ -63,9 +66,11 @@ class Room {
   }
 
   static totalOccupancyPercentage(rooms, startDate, endDate) {
-    
-    if (!Array.isArray(rooms) || rooms.every((room) => !(room instanceof Room))) {
-        return 0;
+    if (
+      !Array.isArray(rooms) ||
+      rooms.every((room) => !(room instanceof Room))
+    ) {
+      return 0;
     }
 
     function countDays(startDate, endDate) {
@@ -87,6 +92,19 @@ class Room {
     const percentage = (totalOccupiedDays / rooms.length).toFixed(1);
 
     return parseFloat(percentage);
+  }
+
+  static availableRooms(rooms, startDate, endDate) {
+    
+    let availableRooms = [];
+
+    for (let room of rooms) {
+      if (!room.isOccupied(startDate) && !room.isOccupied(endDate)) {
+        availableRooms.push(room);
+      }
+    }
+
+    return availableRooms;
   }
 }
 
