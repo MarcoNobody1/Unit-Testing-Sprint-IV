@@ -98,7 +98,7 @@ describe("Tests para la clase de Room", () => {
     expect(typeof isOccupied2).toBe("boolean");
     expect(typeof isOccupied3).toBe("boolean");
   });
-  test("occupancyPercentage tiene que devolver 100 si todas las fechas pasadas al metodo están dentro del rango de bookings", () => {
+  test("occupancyPercentage devuelve 100 si todas las fechas pasadas al metodo están dentro del rango de bookings", () => {
     const room = {
       name: "Room1",
       rate: 150,
@@ -194,7 +194,7 @@ describe("Tests para la clase de Room", () => {
 
     expect(percentage).toBe(50);
   }); 
-  test("occupancyPercentage tiene que devolver 0 si todas las fechas pasadas al metodo no están dentro del rango de bookings", () => {
+  test("occupancyPercentage devuelve 0 si todas las fechas pasadas al metodo no están dentro del rango de bookings", () => {
     const room = {
       name: "Room1",
       rate: 150,
@@ -226,7 +226,7 @@ describe("Tests para la clase de Room", () => {
 
     expect(percentage).toBe(0);
   });
-  test("occupancyPercentage tiene que devolver 0 si las fechas pasadas al metodo son erroneas", () => {
+  test("occupancyPercentage devuelve 0 si las fechas pasadas al metodo son erroneas", () => {
     const room = {
       name: "Room1",
       rate: 150,
@@ -259,7 +259,7 @@ describe("Tests para la clase de Room", () => {
     expect(percentage).toBe(0);
   });
 
-  test("totalOccupancyPercentage tiene que devolver 50 si las fechas pasadas al metodo ocupan el 50% del rango", () => {
+  test("totalOccupancyPercentage devuelve 50 si las fechas pasadas al metodo ocupan el 50% del rango", () => {
     const roomA = {
       name: "roomA",
       rate: 150,
@@ -325,7 +325,73 @@ describe("Tests para la clase de Room", () => {
 
     expect(percentage).toBe(50);
   });
-  test("totalOccupancyPercentage tiene que devolver 100 si las fechas pasadas al metodo ocupan el 100% del rango", () => {
+  test("totalOccupancyPercentage devuelve un porcentaje exacto (12.4% en este caso) al porcentaje de ocupacion total del rango de fechas pasadas", () => {
+    const roomA = {
+      name: "roomA",
+      rate: 150,
+      discount: 10,
+    };
+
+    const booking1 = new Booking(
+      "booking 1",
+      "bok@bok.es",
+      "2023-09-01",
+      "2023-09-06",
+      10,
+      roomA
+    );
+
+    const booking2 = new Booking(
+      "booking 2",
+      "bok2@bok.es",
+      "2023-09-07",
+      "2023-09-15",
+      10,
+      roomA
+    );
+
+    const bookingsA = [booking1, booking2];
+
+    const roomB = {
+      name: "roomB",
+      rate: 150,
+      discount: 10,
+    };
+
+    const booking3 = new Booking(
+      "booking 3",
+      "bok@bok.es",
+      "2023-09-16",
+      "2023-09-22",
+      10,
+      roomB
+    );
+
+    const booking4 = new Booking(
+      "booking 4",
+      "bok2@bok.es",
+      "2023-09-23",
+      "2023-09-30",
+      10,
+      roomB
+    );
+
+    const bookingsB = [booking3, booking4];
+
+    const room1 = new Room(roomA.name, bookingsA, roomA.rate, roomA.discount);
+    const room2 = new Room(roomB.name, bookingsB, roomB.rate, roomB.discount);
+
+    const roomArray = [room1, room2];
+
+    const percentage = Room.totalOccupancyPercentage(
+      roomArray,
+      "2023-09-01",
+      "2023-12-30"
+    );
+
+    expect(percentage).toBe(12.4);
+  });
+  test("totalOccupancyPercentage devuelve 100 si las fechas pasadas al metodo ocupan el 100% del rango", () => {
     const roomA = {
       name: "roomA",
       rate: 150,
@@ -391,7 +457,7 @@ describe("Tests para la clase de Room", () => {
 
     expect(percentage).toBe(100);
   });
-  test("totalOccupancyPercentage tiene que devolver 0 si las fechas pasadas al metodo están fuera del rango", () => {
+  test("totalOccupancyPercentage devuelve 0 si las fechas pasadas al metodo están fuera del rango", () => {
     const roomA = {
       name: "roomA",
       rate: 150,
@@ -457,7 +523,7 @@ describe("Tests para la clase de Room", () => {
 
     expect(percentage).toBe(0);
   });
-  test("totalOccupancyPercentage tiene que devolver 0 si los datos pasados son cualquier otro dato erroneo", () => {
+  test("totalOccupancyPercentage devuelve 0 si los datos pasados son cualquier otro dato erroneo", () => {
     const fakeData = ["hola", "mundo"];
 
     const percentage = Room.totalOccupancyPercentage(fakeData, "hola", "mundo");
@@ -470,7 +536,7 @@ describe("Tests para la clase de Room", () => {
     expect(percentage2).toBe(0);
     expect(percentage3).toBe(0);
   });
-  test("availableRooms tiene que devolver las rooms que están dentro del rango disponible", () => {
+  test("availableRooms devuelve las rooms que están dentro del rango disponible", () => {
     const roomA = {
       name: "roomA",
       rate: 150,
@@ -602,7 +668,7 @@ describe("Tests para la clase de Room", () => {
 
     expect(availables).toEqual([room1, room2]);
   });
-  test("availableRooms devuelve niguna room si el rango que compruebas esta dentro de todas las reservas hechas", () => {
+  test("availableRooms devuelve ninguna room si el rango que compruebas esta dentro de todas las reservas hechas", () => {
     const roomA = {
       name: "roomA",
       rate: 150,
