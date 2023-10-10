@@ -95,7 +95,6 @@ class Room {
   }
 
   static availableRooms(rooms, startDate, endDate) {
-    
     let availableRooms = [];
 
     for (let room of rooms) {
@@ -116,6 +115,18 @@ class Booking {
     this.checkout = checkout;
     this.discount = discount;
     this.room = room;
+  }
+
+  getFee() {
+    const roomDiscount = this.room.discount / 100;
+    const roomRate = this.room.rate;
+    const bookingDiscount = this.discount / 100;
+
+    const rateMinusRoomDiscount = roomRate - roomDiscount * roomRate;
+
+    const realRate = rateMinusRoomDiscount - bookingDiscount * rateMinusRoomDiscount;
+
+    return realRate;
   }
 }
 
