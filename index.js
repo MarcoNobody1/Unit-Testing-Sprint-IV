@@ -118,15 +118,23 @@ class Booking {
   }
 
   getFee() {
+
     const roomDiscount = this.room.discount / 100;
     const roomRate = this.room.rate;
     const bookingDiscount = this.discount / 100;
 
-    const rateMinusRoomDiscount = roomRate - roomDiscount * roomRate;
+    if (typeof this.room.discount !== "number" || typeof this.discount !== "number"){
+      return roomRate;
+      
+    } else {
 
-    const realRate = rateMinusRoomDiscount - bookingDiscount * rateMinusRoomDiscount;
+      const rateMinusRoomDiscount = roomRate - roomDiscount * roomRate;
 
-    return realRate;
+      const realRate = rateMinusRoomDiscount - bookingDiscount * rateMinusRoomDiscount;
+  
+      return realRate;
+    }
+
   }
 }
 
