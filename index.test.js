@@ -129,7 +129,71 @@ describe("Tests para la clase de Room", () => {
     const percentage = room1.occupancyPercentage("2023-09-01", "2023-09-30");
 
     expect(percentage).toBe(100);
-  });
+  }); 
+  test("occupancyPercentage devuelve un porcentaje exacto (24.6% en este caso) al porcentaje de ocupacion que tiene el rango de fechas que pasas al metodo", () => {
+    const room = {
+      name: "Room1",
+      rate: 150,
+      discount: 10,
+    };
+
+    const booking1 = new Booking(
+      "booking 1",
+      "bok@bok.es",
+      "2023-09-01",
+      "2023-09-15",
+      10,
+      room
+    );
+
+    const booking2 = new Booking(
+      "booking 2",
+      "bok2@bok.es",
+      "2023-09-16",
+      "2023-09-30",
+      10,
+      room
+    );
+
+    const bookings = [booking1, booking2];
+
+    const room1 = new Room(room.name, bookings, room.rate, room.discount);
+    const percentage = room1.occupancyPercentage("2023-08-01", "2023-11-30");
+
+    expect(percentage).toBe(24.6);
+  }); 
+  test("occupancyPercentage devuelve 50 si si el rango de fechas pasadas al metodo ocupan el 50% de los bookings", () => {
+    const room = {
+      name: "Room1",
+      rate: 150,
+      discount: 10,
+    };
+
+    const booking1 = new Booking(
+      "booking 1",
+      "bok@bok.es",
+      "2023-09-01",
+      "2023-09-15",
+      10,
+      room
+    );
+
+    const booking2 = new Booking(
+      "booking 2",
+      "bok2@bok.es",
+      "2023-09-16",
+      "2023-09-30",
+      10,
+      room
+    );
+
+    const bookings = [booking1, booking2];
+
+    const room1 = new Room(room.name, bookings, room.rate, room.discount);
+    const percentage = room1.occupancyPercentage("2023-09-01", "2023-10-30");
+
+    expect(percentage).toBe(50);
+  }); 
   test("occupancyPercentage tiene que devolver 0 si todas las fechas pasadas al metodo no están dentro del rango de bookings", () => {
     const room = {
       name: "Room1",
@@ -406,4 +470,5 @@ describe("Tests para la clase de Room", () => {
     expect(percentage2).toBe(0);
     expect(percentage3).toBe(0);
   });
+
 });
