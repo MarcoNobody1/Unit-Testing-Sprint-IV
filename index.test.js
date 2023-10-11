@@ -92,7 +92,7 @@ describe("Tests para la clase de Room", () => {
 
     const room1 = new Room(room.name, bookings, room.rate, room.discount);
     const isOccupied = room1.isOccupied();
-    const isOccupied2 = room1.isOccupied(3);
+    const isOccupied2 = room1.isOccupied(10);
     const isOccupied3 = room1.isOccupied("hola mundo");
     expect(typeof isOccupied).toBe("boolean");
     expect(typeof isOccupied2).toBe("boolean");
@@ -130,7 +130,7 @@ describe("Tests para la clase de Room", () => {
 
     expect(percentage).toBe(100);
   });
-  test("occupancyPercentage devuelve un porcentaje exacto (24.6% en este caso) al porcentaje de ocupacion que tiene el rango de fechas que pasas al metodo", () => {
+  test("occupancyPercentage devuelve un porcentaje exacto (36.9% en este caso) al porcentaje de ocupacion que tiene el rango de fechas que pasas al metodo", () => {
     const room = {
       name: "Room1",
       rate: 15000,
@@ -155,12 +155,21 @@ describe("Tests para la clase de Room", () => {
       room
     );
 
-    const bookings = [booking1, booking2];
+    const booking3 = new Booking(
+      "booking 2",
+      "bok2@bok.es",
+      "2023-10-01",
+      "2023-10-15",
+      10,
+      room
+    );
+
+    const bookings = [booking1, booking2, booking3];
 
     const room1 = new Room(room.name, bookings, room.rate, room.discount);
     const percentage = room1.occupancyPercentage("2023-08-01", "2023-11-30");
 
-    expect(percentage).toBe(24.6);
+    expect(percentage).toBe(36.9);
   });
   test("occupancyPercentage devuelve 50 si si el rango de fechas pasadas al metodo ocupan el 50% de los bookings", () => {
     const room = {
@@ -551,11 +560,12 @@ describe("Tests para la clase de Room", () => {
       discount: 10,
     };
 
+
     const booking1 = new Booking(
       "booking 1",
       "bok@bok.es",
       "2023-09-01",
-      "2023-09-03",
+      "2023-09-06",
       10,
       roomA
     );
@@ -563,13 +573,22 @@ describe("Tests para la clase de Room", () => {
     const booking2 = new Booking(
       "booking 2",
       "bok2@bok.es",
-      "2023-09-04",
       "2023-09-08",
+      "2023-09-09",
       10,
       roomA
     );
 
-    const bookingsA = [booking1, booking2];
+    const booking3 = new Booking(
+      "booking 2",
+      "bok2@bok.es",
+      "2023-09-11",
+      "2023-09-15",
+      10,
+      roomA
+    );
+
+    const bookingsA = [booking1, booking2, booking3];
 
     const roomB = {
       name: "roomB",
@@ -577,7 +596,7 @@ describe("Tests para la clase de Room", () => {
       discount: 10,
     };
 
-    const booking3 = new Booking(
+    const booking4 = new Booking(
       "booking 3",
       "bok@bok.es",
       "2023-09-15",
@@ -586,7 +605,7 @@ describe("Tests para la clase de Room", () => {
       roomB
     );
 
-    const booking4 = new Booking(
+    const booking5 = new Booking(
       "booking 4",
       "bok2@bok.es",
       "2023-09-23",
@@ -595,7 +614,7 @@ describe("Tests para la clase de Room", () => {
       roomB
     );
 
-    const bookingsB = [booking3, booking4];
+    const bookingsB = [booking4, booking5];
 
     const room1 = new Room(roomA.name, bookingsA, roomA.rate, roomA.discount);
     const room2 = new Room(roomB.name, bookingsB, roomB.rate, roomB.discount);
@@ -604,8 +623,8 @@ describe("Tests para la clase de Room", () => {
 
     const availables = Room.availableRooms(
       roomArray,
-      "2023-09-01",
-      "2023-09-05"
+      "2023-09-07",
+      "2023-09-10"
     );
 
     expect(availables).toEqual([room2]);
