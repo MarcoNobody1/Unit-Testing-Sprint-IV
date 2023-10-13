@@ -92,11 +92,15 @@ class Room {
   static availableRooms(rooms, startDate, endDate) {
 
   let availableRooms=[];
+  const startingDate = new Date(startDate);
+  const endingDate = new Date(endDate);
+
+  if(startingDate > endingDate || startingDate == "Invalid Date" || endingDate == "Invalid Date" || !startingDate || !endingDate ){
+    return [];
+  }
 
       for (const room of rooms) {
         let available = true;
-        const startingDate = new Date(startDate);
-        const endingDate = new Date(endDate);
         startingDate.setHours(0, 0, 0, 0);
         endingDate.setHours(23, 59, 59, 999);
 
