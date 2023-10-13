@@ -695,7 +695,7 @@ describe("Tests para la clase de Room", () => {
 
     expect(availables).toEqual([room1, room2]);
   });
-  test("availableRooms devuelve ninguna room si el rango que compruebas esta dentro de todas las reservas hechas", () => {
+  test("availableRooms no devuelve nada si en el rango de fechas las habitaciones estan ocupadas", () => {
     const roomA = {
       name: "roomA",
       rate: 15000,
@@ -827,8 +827,8 @@ describe("Tests para la clase de Room", () => {
 
     const availables2 = Room.availableRooms(roomArray, "hello", "world");
 
-    expect(availables).toEqual([room1, room2]);
-    expect(availables2).toEqual([room1, room2]);
+    expect(availables).toEqual([]);
+    expect(availables2).toEqual([]);
   });
 });
 
