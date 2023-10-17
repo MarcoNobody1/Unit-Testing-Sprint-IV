@@ -111,15 +111,13 @@ class Room implements RoomInterface {
     return parseFloat(percentage);
   }
 
-  static availableRooms(rooms, startDate, endDate) {
-    let availableRooms = [];
-    const startingDate = new Date(startDate);
-    const endingDate = new Date(endDate);
+  static availableRooms(rooms:Room[], startDate: string | Date, endDate: string | Date):Room[] | [] {
+    let availableRooms:Room[] = [];
+    const startingDate:Date = new Date(startDate);
+    const endingDate:Date = new Date(endDate);
 
     if (
       startingDate > endingDate ||
-      startingDate == "Invalid Date" ||
-      endingDate == "Invalid Date" ||
       !startingDate ||
       !endingDate
     ) {
@@ -127,12 +125,12 @@ class Room implements RoomInterface {
     }
 
     for (const room of rooms) {
-      let available = true;
+      let available:boolean = true;
       startingDate.setHours(0, 0, 0, 0);
       endingDate.setHours(23, 59, 59, 999);
 
       for (
-        let currentDate = startingDate;
+        let currentDate:Date = startingDate;
         currentDate <= endingDate;
         currentDate.setDate(currentDate.getDate() + 1)
       ) {
