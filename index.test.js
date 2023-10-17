@@ -1,4 +1,4 @@
-const { Room, Booking } = require("./index.js");
+const { Room, Booking } = require("./dist/index");
 
 describe("Tests para la clase de Room", () => {
   test("isOccupied es true cuando la habitacion esta ocupada en una fecha dada", () => {

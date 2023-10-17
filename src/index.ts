@@ -1,16 +1,33 @@
-class Room {
-  constructor(name, bookings, rate, discount) {
+interface RoomInterface {
+  name: string;
+  bookings: Booking[];
+  rate: number;
+  discount: number;
+}
+
+class Room implements RoomInterface {
+  name;
+  bookings;
+  rate;
+  discount;
+
+  constructor(
+    name: string,
+    bookings: Booking[],
+    rate: number,
+    discount: number
+  ) {
     this.name = name;
     this.bookings = bookings;
     this.rate = rate;
     this.discount = discount;
   }
-  isOccupied(date) {
-    const myDate = new Date(date);
+  isOccupied(date: string | Date): boolean {
+    const myDate: Date = new Date(date);
 
     for (let i = 0; i < this.bookings.length; i++) {
-      const startDate = new Date(this.bookings[i].checkin);
-      const endDate = new Date(this.bookings[i].checkout);
+      const startDate: Date = new Date(this.bookings[i].checkin);
+      const endDate: Date = new Date(this.bookings[i].checkout);
 
       if (myDate >= startDate && myDate <= endDate) {
         return true;
@@ -30,8 +47,11 @@ class Room {
     let totalDaysInRange = 0;
     let occupiedDays = 0;
 
-    for ( let currentDate = startDate; currentDate <= endDate; currentDate.setDate(currentDate.getDate() + 1)) {
-      
+    for (
+      let currentDate = startDate;
+      currentDate <= endDate;
+      currentDate.setDate(currentDate.getDate() + 1)
+    ) {
       totalDaysInRange++;
 
       let isOccupied = false;
@@ -63,7 +83,9 @@ class Room {
   }
 
   static totalOccupancyPercentage(rooms, startDate, endDate) {
-    if ( !Array.isArray(rooms) || rooms.every((room) => !(room instanceof Room))
+    if (
+      !Array.isArray(rooms) ||
+      rooms.every((room) => !(room instanceof Room))
     ) {
       return 0;
     }
@@ -90,22 +112,30 @@ class Room {
   }
 
   static availableRooms(rooms, startDate, endDate) {
+    let availableRooms = [];
+    const startingDate = new Date(startDate);
+    const endingDate = new Date(endDate);
 
-  let availableRooms=[];
-  const startingDate = new Date(startDate);
-  const endingDate = new Date(endDate);
+    if (
+      startingDate > endingDate ||
+      startingDate == "Invalid Date" ||
+      endingDate == "Invalid Date" ||
+      !startingDate ||
+      !endingDate
+    ) {
+      return [];
+    }
 
-  if(startingDate > endingDate || startingDate == "Invalid Date" || endingDate == "Invalid Date" || !startingDate || !endingDate ){
-    return [];
-  }
+    for (const room of rooms) {
+      let available = true;
+      startingDate.setHours(0, 0, 0, 0);
+      endingDate.setHours(23, 59, 59, 999);
 
-      for (const room of rooms) {
-        let available = true;
-        startingDate.setHours(0, 0, 0, 0);
-        endingDate.setHours(23, 59, 59, 999);
-
-        for ( let currentDate = startingDate; currentDate <= endingDate; currentDate.setDate(currentDate.getDate() + 1)) {
-
+      for (
+        let currentDate = startingDate;
+        currentDate <= endingDate;
+        currentDate.setDate(currentDate.getDate() + 1)
+      ) {
         if (room.isOccupied(currentDate)) {
           available = false;
           break;
@@ -121,8 +151,30 @@ class Room {
   }
 }
 
-class Booking {
-  constructor(name, email, checkin, checkout, discount, room) {
+interface BookingInterface {
+  name: string;
+  email: string;
+  checkin: string | Date;
+  checkout: string | Date;
+  discount: number;
+  room: Room;
+}
+class Booking implements BookingInterface {
+  name;
+  email;
+  checkin;
+  checkout;
+  discount;
+  room;
+
+  constructor(
+    name: string,
+    email: string,
+    checkin: string | Date,
+    checkout: string | Date,
+    discount: number,
+    room: Room
+  ) {
     this.name = name;
     this.email = email;
     this.checkin = checkin;
@@ -132,23 +184,23 @@ class Booking {
   }
 
   getFee() {
-
     const roomDiscount = this.room.discount / 100;
     const roomRate = this.room.rate;
     const bookingDiscount = this.discount / 100;
 
-    if (typeof this.room.discount !== "number" || typeof this.discount !== "number"){
+    if (
+      typeof this.room.discount !== "number" ||
+      typeof this.discount !== "number"
+    ) {
       return roomRate;
-      
     } else {
-
       const rateMinusRoomDiscount = roomRate - roomDiscount * roomRate;
 
-      const realRate = rateMinusRoomDiscount - bookingDiscount * rateMinusRoomDiscount;
-  
+      const realRate =
+        rateMinusRoomDiscount - bookingDiscount * rateMinusRoomDiscount;
+
       return realRate;
     }
-
   }
 }
 
