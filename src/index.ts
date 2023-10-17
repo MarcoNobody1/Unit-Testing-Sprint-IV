@@ -82,7 +82,7 @@ class Room implements RoomInterface {
     return parseFloat(percentage.toFixed(1));
   }
 
-  static totalOccupancyPercentage(rooms, startDate, endDate) {
+  static totalOccupancyPercentage(rooms:Room[], startDate: string | Date, endDate: string | Date):number {
     if (
       !Array.isArray(rooms) ||
       rooms.every((room) => !(room instanceof Room))
@@ -90,9 +90,9 @@ class Room implements RoomInterface {
       return 0;
     }
 
-    function countDays(startDate, endDate) {
+    function countDays(startDate: Date, endDate: Date):number {
       const oneDay = 24 * 60 * 60 * 1000;
-      return Math.round(Math.abs((startDate - endDate) / oneDay)) + 1;
+      return Math.round(Math.abs((startDate.getTime() - endDate.getTime()) / oneDay)) + 1;
     }
 
     let totalOccupiedDays = 0;
