@@ -37,7 +37,7 @@ class Room implements RoomInterface {
     return false;
   }
 
-  occupancyPercentage(startingDate, endingDate) {
+  occupancyPercentage(startingDate: string | Date, endingDate: string | Date):number {
     const startDate = new Date(startingDate);
     const endDate = new Date(endingDate);
 
