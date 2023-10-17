@@ -1,4 +1,6 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Booking = exports.Room = void 0;
 class Room {
     constructor(name, bookings, rate, discount) {
         this.name = name;
@@ -54,7 +56,7 @@ class Room {
         }
         function countDays(startDate, endDate) {
             const oneDay = 24 * 60 * 60 * 1000;
-            return Math.round(Math.abs((startDate - endDate) / oneDay)) + 1;
+            return Math.round(Math.abs((startDate.getTime() - endDate.getTime()) / oneDay)) + 1;
         }
         let totalOccupiedDays = 0;
         let totalDaysInRange = countDays(new Date(startDate), new Date(endDate));
@@ -72,10 +74,10 @@ class Room {
         const startingDate = new Date(startDate);
         const endingDate = new Date(endDate);
         if (startingDate > endingDate ||
-            startingDate == "Invalid Date" ||
-            endingDate == "Invalid Date" ||
             !startingDate ||
-            !endingDate) {
+            !endingDate ||
+            isNaN(startingDate.getTime()) ||
+            isNaN(endingDate.getTime())) {
             return [];
         }
         for (const room of rooms) {
@@ -95,6 +97,7 @@ class Room {
         return availableRooms;
     }
 }
+exports.Room = Room;
 class Booking {
     constructor(name, email, checkin, checkout, discount, room) {
         this.name = name;
@@ -119,7 +122,4 @@ class Booking {
         }
     }
 }
-module.exports = {
-    Room,
-    Booking,
-};
+exports.Booking = Booking;
