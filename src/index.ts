@@ -37,7 +37,7 @@ class Room implements RoomInterface {
     return false;
   }
 
-  occupancyPercentage(startingDate, endingDate) {
+  occupancyPercentage(startingDate: string | Date, endingDate: string | Date):number {
     const startDate = new Date(startingDate);
     const endDate = new Date(endingDate);
 
@@ -82,7 +82,7 @@ class Room implements RoomInterface {
     return parseFloat(percentage.toFixed(1));
   }
 
-  static totalOccupancyPercentage(rooms, startDate, endDate) {
+  static totalOccupancyPercentage(rooms:Room[], startDate: string | Date, endDate: string | Date):number {
     if (
       !Array.isArray(rooms) ||
       rooms.every((room) => !(room instanceof Room))
@@ -90,9 +90,9 @@ class Room implements RoomInterface {
       return 0;
     }
 
-    function countDays(startDate, endDate) {
+    function countDays(startDate: Date, endDate: Date):number {
       const oneDay = 24 * 60 * 60 * 1000;
-      return Math.round(Math.abs((startDate - endDate) / oneDay)) + 1;
+      return Math.round(Math.abs((startDate.getTime() - endDate.getTime()) / oneDay)) + 1;
     }
 
     let totalOccupiedDays = 0;
@@ -111,15 +111,13 @@ class Room implements RoomInterface {
     return parseFloat(percentage);
   }
 
-  static availableRooms(rooms, startDate, endDate) {
-    let availableRooms = [];
-    const startingDate = new Date(startDate);
-    const endingDate = new Date(endDate);
+  static availableRooms(rooms:Room[], startDate: string | Date, endDate: string | Date):Room[] | [] {
+    let availableRooms:Room[] = [];
+    const startingDate:Date = new Date(startDate);
+    const endingDate:Date = new Date(endDate);
 
     if (
       startingDate > endingDate ||
-      startingDate == "Invalid Date" ||
-      endingDate == "Invalid Date" ||
       !startingDate ||
       !endingDate
     ) {
@@ -127,12 +125,12 @@ class Room implements RoomInterface {
     }
 
     for (const room of rooms) {
-      let available = true;
+      let available:boolean = true;
       startingDate.setHours(0, 0, 0, 0);
       endingDate.setHours(23, 59, 59, 999);
 
       for (
-        let currentDate = startingDate;
+        let currentDate:Date = startingDate;
         currentDate <= endingDate;
         currentDate.setDate(currentDate.getDate() + 1)
       ) {
@@ -183,7 +181,7 @@ class Booking implements BookingInterface {
     this.room = room;
   }
 
-  getFee() {
+  getFee():number {
     const roomDiscount = this.room.discount / 100;
     const roomRate = this.room.rate;
     const bookingDiscount = this.discount / 100;
