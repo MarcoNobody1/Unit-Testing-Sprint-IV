@@ -181,7 +181,7 @@ class Booking implements BookingInterface {
     this.room = room;
   }
 
-  getFee() {
+  getFee():number {
     const roomDiscount = this.room.discount / 100;
     const roomRate = this.room.rate;
     const bookingDiscount = this.discount / 100;
