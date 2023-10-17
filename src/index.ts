@@ -1,11 +1,11 @@
 interface RoomInterface {
   name: string;
-  bookings: Booking[];
+  bookings?: Booking[];
   rate: number;
   discount: number;
 }
 
-class Room implements RoomInterface {
+export class Room implements RoomInterface {
   name;
   bookings;
   rate;
@@ -13,7 +13,7 @@ class Room implements RoomInterface {
 
   constructor(
     name: string,
-    bookings: Booking[],
+    bookings: Booking[] | [],
     rate: number,
     discount: number
   ) {
@@ -22,7 +22,7 @@ class Room implements RoomInterface {
     this.rate = rate;
     this.discount = discount;
   }
-  isOccupied(date: string | Date): boolean {
+  isOccupied(date: string | Date ): boolean {
     const myDate: Date = new Date(date);
 
     for (let i = 0; i < this.bookings.length; i++) {
@@ -112,14 +112,18 @@ class Room implements RoomInterface {
   }
 
   static availableRooms(rooms:Room[], startDate: string | Date, endDate: string | Date):Room[] | [] {
+
     let availableRooms:Room[] = [];
+
     const startingDate:Date = new Date(startDate);
     const endingDate:Date = new Date(endDate);
 
     if (
       startingDate > endingDate ||
       !startingDate ||
-      !endingDate
+      !endingDate ||
+      isNaN(startingDate.getTime()) ||
+      isNaN(endingDate.getTime())
     ) {
       return [];
     }
@@ -155,9 +159,9 @@ interface BookingInterface {
   checkin: string | Date;
   checkout: string | Date;
   discount: number;
-  room: Room;
+  room: RoomInterface;
 }
-class Booking implements BookingInterface {
+export class Booking implements BookingInterface {
   name;
   email;
   checkin;
@@ -171,7 +175,7 @@ class Booking implements BookingInterface {
     checkin: string | Date,
     checkout: string | Date,
     discount: number,
-    room: Room
+    room: RoomInterface,
   ) {
     this.name = name;
     this.email = email;
@@ -201,8 +205,3 @@ class Booking implements BookingInterface {
     }
   }
 }
-
-module.exports = {
-  Room,
-  Booking,
-};
