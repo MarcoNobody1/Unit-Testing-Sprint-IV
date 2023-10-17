@@ -529,8 +529,6 @@ describe("Tests para la clase de Room", () => {
     expect(percentage).toBe(0);
   });
 
-  // Este test es inutil realizarlo en TypeScript, tendríamos que forzar el error a entrar en una funcion de index.ts
-
   // test("totalOccupancyPercentage devuelve 0 si los datos pasados son cualquier otro dato erroneo", () => {
   //   const fakeData = ["hola", "mundo"];
 
@@ -552,6 +550,10 @@ describe("Tests para la clase de Room", () => {
   //   expect(percentage2).toBe(0);
   //   expect(percentage3).toBe(0);
   // });
+
+  /* Este test es inutil realizarlo en TypeScript, tendríamos que forzar el error a entrar en una funcion de index.ts.
+    Se comenta para ver la diferencia entre lo necesario en JavaScript y TypeScript.
+    */
   test("availableRooms devuelve las rooms que están dentro del rango disponible", () => {
     const roomA = {
       name: "roomA",
@@ -912,8 +914,6 @@ describe("Tests para la clase de Booking", () => {
     expect(typeof realFee).toBe("number");
   });
 
-  // Este test es inutil realizarlo en TypeScript, tendríamos que forzar el error a entrar en una funcion de index.ts
-
   // test("getFee devuelve el precio original si los discounts aplicados no son numeros", () => {
 
   //   const room = {
@@ -935,4 +935,8 @@ describe("Tests para la clase de Booking", () => {
 
   //   expect(realFee).toBe(15000);
   // });
+
+    /* Este test es inutil realizarlo en TypeScript, tendríamos que forzar el error a entrar en una funcion de index.ts.
+    Se comenta para ver la diferencia entre lo necesario en JavaScript y TypeScript.
+    */
 });
